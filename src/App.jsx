@@ -21,8 +21,11 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+        <p>
+          GitHub Codespaces <span className="heart">♥️</span> React
+        </p>
         {/* Google Map */}
-        <LoadScript googleMap4sApiKey="AIzaSyCW9BtPULGTFUJMFDX2qioN1R1baZT4CT8">
+        <LoadScript googleMapsApiKey="AIzaSyCW9BtPULGTFUJMFDX2qioN1R1baZT4CT8">
           <GoogleMap
             mapContainerStyle={mapContainerStyle}
             center={center}
