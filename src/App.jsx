@@ -3,8 +3,8 @@ import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 
 function App() {
   const mapContainerStyle = {
-    width: '400px',
-    height: '300px',
+    width: '1500px',
+    height: '1100px',
     margin: '20px auto'
   };
   const center = {
@@ -21,25 +21,8 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src="Octocat.png" className="App-logo" alt="logo" />
-        <p>
-          GitHub Codespaces <span className="heart">♥️</span> React
-        </p>
-        <p className="small">
-          Edit <code>src/App.jsx</code> and save to reload.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </p>
         {/* Google Map */}
-        <LoadScript googleMapsApiKey="">
+        <LoadScript googleMapsApiKey="AIzaSyCW9BtPULGTFUJMFDX2qioN1R1baZT4CT8">
           <GoogleMap
             mapContainerStyle={mapContainerStyle}
             center={center}
