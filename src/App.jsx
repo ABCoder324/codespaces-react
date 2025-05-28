@@ -1,4 +1,16 @@
+import React from "react";
+import { GoogleMap, LoadScript } from "@react-google-maps/api";
 import './App.css';
+
+const containerStyle = {
+  width: "400px",
+  height: "400px"
+};
+
+const center = {
+  lat: 37.4220656,
+  lng: -122.0840897
+};
 
 function App() {
   return (
@@ -6,10 +18,10 @@ function App() {
       <header className="App-header">
         <img src="Octocat.png" className="App-logo" alt="logo" />
         <p>
-          GitHub Codespaces <span className="heart">♥️</span> React
+          GitHub Codespaces <span className="heart"></span> 
         </p>
         <p className="small">
-          Edit <code>src/App.jsx</code> and save to reload.
+          Edit <code></code> and save to reload.
         </p>
         <p>
           <a
@@ -21,6 +33,9 @@ function App() {
             Learn React
           </a>
         </p>
+        <LoadScript googleMapsApiKey="AIzaSyCW9BtPULGTFUJMFDX2qioN1R1baZT4CT8">
+          <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={10} />
+        </LoadScript>
       </header>
     </div>
   );
