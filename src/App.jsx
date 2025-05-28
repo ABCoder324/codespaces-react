@@ -1,27 +1,32 @@
-import React from "react";
-import { GoogleMap, LoadScript } from "@react-google-maps/api";
 import './App.css';
-
-const containerStyle = {
-  width: "400px",
-  height: "400px"
-};
-
-const center = {
-  lat: 37.4220656,
-  lng: -122.0840897
-};
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 
 function App() {
+  const mapContainerStyle = {
+    width: '400px',
+    height: '300px',
+    margin: '20px auto'
+  };
+  const center = {
+    lat: 37.7749, // Example: San Francisco
+    lng: -122.4194
+  };
+
+  // Ghirardelli Square coordinates
+  const ghirardelliSquare = {
+    lat: 37.8058,
+    lng: -122.4228
+  };
+
   return (
     <div className="App">
       <header className="App-header">
         <img src="Octocat.png" className="App-logo" alt="logo" />
         <p>
-          GitHub Codespaces <span className="heart"></span> 
+          GitHub Codespaces <span className="heart">♥️</span> React
         </p>
         <p className="small">
-          Edit <code></code> and save to reload.
+          Edit <code>src/App.jsx</code> and save to reload.
         </p>
         <p>
           <a
@@ -33,8 +38,15 @@ function App() {
             Learn React
           </a>
         </p>
-        <LoadScript googleMapsApiKey="AIzaSyCW9BtPULGTFUJMFDX2qioN1R1baZT4CT8">
-          <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={10} />
+        {/* Google Map */}
+        <LoadScript googleMapsApiKey="">
+          <GoogleMap
+            mapContainerStyle={mapContainerStyle}
+            center={center}
+            zoom={12}
+          >
+            <Marker position={ghirardelliSquare} />
+          </GoogleMap>
         </LoadScript>
       </header>
     </div>
