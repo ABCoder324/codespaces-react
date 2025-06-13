@@ -1,10 +1,11 @@
+import React, { useRef, useCallback } from 'react';
 import './App.css';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 
 function App() {
   const mapContainerStyle = {
-    width: '400px',
-    height: '300px',
+    width: '1500px',
+    height: '1100px',
     margin: '20px auto'
   };
   const center = {
@@ -12,32 +13,52 @@ function App() {
     lng: -122.4194
   };
 
-  // Ghirardelli Square coordinates
-  const ghirardelliSquare = {
-    lat: 37.8058,
-    lng: -122.4228
-  };
-
   return (
-    <div className="App">
+    <div className="App" >
       <header className="App-header">
-        <p>
-          GitHub Codespaces <span className="heart">♥️</span> React
-        </p>
         {/* Google Map */}
-        <LoadScript googleMapsApiKey="AIzaSyCW9BtPULGTFUJMFDX2qioN1R1baZT4CT8">
+        <LoadScript googleMapsApiKey="AIzaSyCW9BtPULGTFUJMFDX2qioN1R1baZT4CT8"> 
           <GoogleMap
             mapContainerStyle={mapContainerStyle}
             center={center}
             zoom={12}
-            mapID="8ea0b74f8a301c1beb1759db"
+            mapId="8ea0b74f8a301c1beb1759db"
+            onLoad={useCallback(map => {
+              console.log('Map loaded:', map);
+              const markerOptions = { 
+                map: map,
+                position: { lat: 37.8058, lng: -122.4228 }, 
+                title: "Ghiradelli Square" 
+            };
+
+            var settings = {
+  "url": "https://airquality.googleapis.com/v1/currentConditions:lookup?key=AIzaSyCW9BtPULGTFUJMFDX2qioN1R1baZT4CT8",
+  "method": "POST",
+  "timeout": 0,
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "data": JSON.stringify({
+    "location": {
+      "latitude": 37.419734,
+      "longitude": -122.0827784
+    }
+  }),
+};
+
+$.ajax(settings).done(function (response) {
+  console.log(response);
+});
+            const marker = new google.maps.Marker(markerOptions);
+                } , [])} 
+
           >
-            <Marker position={ghirardelliSquare} />
           </GoogleMap>
         </LoadScript>
       </header>
     </div>
   );
+
 }
 
 export default App;
