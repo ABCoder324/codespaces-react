@@ -12,12 +12,14 @@ function creatingGrid(){
   var east = bounds.getNorthEast().lng();
   var latLngArray = creatingArray(south, west, north, east);
   console.log(latLngArray.length);
-  latLngArray.forEach(function(latLng, index) {
+  var airQualityArray = [];
+  latLngArray.forEach(async function(latLng, index) {
     console.log(`Element at index ${index}: ${latLng.lat}`);
     console.log(`Element at index ${index}: ${latLng.lng}`);
-    console.log(fetchAirQuality(latLng.lat, latLng.lng));
+    var airQuality = await fetchAirQuality(latLng.lat, latLng.lng);
+    airQualityArray.push(airQuality);
 });
-  //var airQuality = fetchAirQuality() ;
+
 }
 
 function creatingArray(south, west, north, east){
@@ -65,6 +67,8 @@ async function fetchAirQuality(lat, lng){
  }
  var aqi = json.indexes[0].aqi
  console.log(aqi)
+
+ return aqi;
 }
 
 function App() {
