@@ -10,7 +10,61 @@ function creatingGrid(){
   var west = bounds.getSouthWest().lng();
   var north = bounds.getNorthEast().lat();
   var east = bounds.getNorthEast().lng();
-  console.log(south)
+  var latLngArray = creatingArray(south, west, north, east);
+  console.log(latLngArray.length);
+  latLngArray.forEach(function(latLng, index) {
+    console.log(`Element at index ${index}: ${latLng.lat}`);
+    console.log(`Element at index ${index}: ${latLng.lng}`);
+    console.log(fetchAirQuality(latLng.lat, latLng.lng));
+});
+  //var airQuality = fetchAirQuality() ;
+}
+
+function creatingArray(south, west, north, east){
+  const size = 10;
+  const latLngArray = [];
+   for (let i = 0;  i< size ; i++)  {
+      for (let j = 0 ; j < size ; j++ ) { 
+        const lat = south + (north -  south) * (i / size - 1);
+        const lng  = west + (east - west) * (j / size - 1);
+        latLngArray.push({lat, lng});
+      }
+    }
+    return latLngArray;
+}
+
+async function fetchAirQuality(lat, lng){
+  const myHeaders = new Headers();
+ myHeaders.append("Content-Type", "application/json");
+
+ const raw = JSON.stringify({
+  "location": {
+    "latitude": lat,
+    "longitude": lng
+  }
+ });
+
+ const requestOptions = {
+  method: "POST",
+  headers: myHeaders,
+  body: raw,
+  redirect: "follow"
+ };
+
+ var response = await fetch("https://airquality.googleapis.com/v1/currentConditions:lookup?key=AIzaSyCW9BtPULGTFUJMFDX2qioN1R1baZT4CT8", requestOptions);
+ if (response.status == 400){
+  return 0;
+ }
+ var json = await response.json();
+ //console.log(json?.indexes[0].aqi);
+ if (! json){
+  return 0;
+ }
+ if (! json.indexes){
+  return 0;
+ }
+ var aqi = json.indexes[0].aqi
+ console.log(aqi)
 }
 
 function App() {
@@ -44,7 +98,6 @@ function App() {
                 position: { lat: 37.8058, lng: -122.4228 }, 
                 title: "Ghiradelli Square" 
             };
-            var tile = convert({ lat: 37.8058, lng: -122.4228 }, 12)
             var settings = {
   "url": "https://airquality.googleapis.com/v1/currentConditions:lookup?key=AIzaSyCW9BtPULGTFUJMFDX2qioN1R1baZT4CT8",
   "method": "POST",
