@@ -1,9 +1,9 @@
 import React, { useRef, useCallback } from 'react';
 import './App.css';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
-import { useMap } from '@vis.gl/react-google-maps';
+import { useMap } from '@vis.gl/react-google-maps'; 
 
-function creatingGrid(){
+async function creatingGrid(map){
   console.log('creating grid');
   var bounds = myMap.getBounds();
   var south = bounds.getSouthWest().lat();
@@ -13,14 +13,22 @@ function creatingGrid(){
   var latLngArray = creatingArray(south, west, north, east);
   console.log(latLngArray.length);
   var airQualityArray = [];
-  latLngArray.forEach(async function(latLng, index) {
-    console.log(`Element at index ${index}: ${latLng.lat}`);
-    console.log(`Element at index ${index}: ${latLng.lng}`);
+  for(var latLng of latLngArray){
+    console.log(`Element at index: ${latLng.lng}`);
     var airQuality = await fetchAirQuality(latLng.lat, latLng.lng);
     airQualityArray.push(airQuality);
-});
-
-}
+  };
+  var heatMapArray = [];
+  latLngArray.forEach(function(latLng, index) {
+    var airQuality = airQualityArray[index];
+    var heatMapData = {location: new google.maps.LatLng(latLng.lat, latLng.lng), weight: airQuality};
+    heatMapArray.push(heatMapData);
+  });
+  var heatmap = new google.maps.visualization.HeatmapLayer({
+  data: heatMapArray
+  });
+  heatmap.setMap(map);
+} 
 
 function creatingArray(south, west, north, east){
   const size = 10;
@@ -74,8 +82,8 @@ async function fetchAirQuality(lat, lng){
 function App() {
   const mapRef = useMap ();
   const mapContainerStyle = {
-    width: '1000px',
-    height: '1000px',
+    width: '100%',
+    height: '800px',
     margin: '20px auto'
   };
   const center = {
@@ -87,7 +95,8 @@ function App() {
     <div className="App" >
       <header className="App-header">
         {/* Google Map */}
-        <LoadScript googleMapsApiKey="AIzaSyCW9BtPULGTFUJMFDX2qioN1R1baZT4CT8"> 
+        <LoadScript googleMapsApiKey="AIzaSyCW9BtPULGTFUJMFDX2qioN1R1baZT4CT8" 
+          libraries={['visualization']}>
           <GoogleMap
             mapContainerStyle={mapContainerStyle}
             center={center}
@@ -96,7 +105,7 @@ function App() {
             onLoad={useCallback(map => {
               console.log('Map loaded:', map);
               window.myMap = map;
-              google.maps.event.addListenerOnce(map, 'idle', function(){creatingGrid()})
+              google.maps.event.addListenerOnce(map, 'idle', function(){creatingGrid(map)})
               const markerOptions = { 
                 map: map,
                 position: { lat: 37.8058, lng: -122.4228 }, 
