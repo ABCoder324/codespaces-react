@@ -115,7 +115,7 @@ function App() {
     };
 
     try {
-      const response = await fetch("https://airquality.googleapis.com/v1/currentConditions:lookup?key=AIzaSyCW9BtPULGTFUJMFDX2qioN1R1baZT4CT8", requestOptions);
+      const response = await fetch("https://airquality.googleapis.com/v1/currentConditions:lookup?key=YOUR-API-KEY", requestOptions);
       if (!response.ok) {
         if (response.status === 400) {
           console.error('API Error: Bad request');
@@ -145,7 +145,7 @@ function App() {
   return (
     <div style={{ position: 'relative' }} className="App">
       <header className="App-header">
-        <LoadScript googleMapsApiKey="AIzaSyCW9BtPULGTFUJMFDX2qioN1R1baZT4CT8" libraries={['visualization']}>
+        <LoadScript googleMapsApiKey="[YOUR-API-KEY]" libraries={['visualization']}>
           <GoogleMap
             mapContainerStyle={{ width: '100%', aspectRatio: '1/1', maxWidth: '800px', maxHeight: '800px' }}
             mapId="8ea0b74f8a301c1beb1759db"
